@@ -1,0 +1,4 @@
+Starting audit...
+[ERROR] C:\Users\Eduardo\VideosDB_git\.\src\main\Main.java:76:3: Method length is 174 lines (max allowed is 150). [MethodLength]
+Audit done.
+Checkstyle ends with 1 errors.
