@@ -13,44 +13,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class ActorQuery extends Query implements SortMap {
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public ActorQuery(final Database db) {
     super(db);
   }
+
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject average(
       final int id,
@@ -64,7 +40,7 @@ public final class ActorQuery extends Query implements SortMap {
     HashMap<String, Double> actorsRatings = new HashMap<>();
 
     for (Actor act : actors) {
-      Double bigRating = 0.0;
+      double bigRating = 0.0;
       int count = 0;
 
       for (String str : act.getFilmography()) {
@@ -72,7 +48,12 @@ public final class ActorQuery extends Query implements SortMap {
         Double rating = 0.0;
 
         if (this.getDb().getVideoByTitle(str) != null) {
-          rating = this.getDb().getVideoByTitle(str).getRating();
+          ///// rating = this.getDb().getVideoByTitle(str).getRating();
+          try {
+            rating = Objects.requireNonNull(this.getDb().getVideoByTitle(str)).getRating();
+          } catch (NullPointerException e) {
+            System.out.println("Rating is null");
+          }
           if (Double.compare(rating, 0.0) != 0) {
             count++;
           }
@@ -96,19 +77,6 @@ public final class ActorQuery extends Query implements SortMap {
   }
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject awards(
       final int id,
@@ -158,17 +126,9 @@ public final class ActorQuery extends Query implements SortMap {
    * Some javadoc. // OK
    *
    * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
+   * @param id javadoc. // OK
    * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
+   * @throws IOException // OK
    */
   public JSONObject filterDescription(
       final int id,

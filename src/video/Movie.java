@@ -4,19 +4,15 @@ import fileio.MovieInputData;
 import org.json.simple.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public final class Movie extends Video implements IRating {
   private final int duration;
-  private ArrayList<Double> ratings;
-  private Map<String, Double> userRatings;
+  private final ArrayList<Double> ratings;
 
   public Movie(final MovieInputData mv) {
     super(mv.getTitle(), mv.getYear(), mv.getCast(), mv.getGenres());
     this.duration = mv.getDuration();
     this.ratings = new ArrayList<>();
-    this.userRatings = new HashMap<>();
   }
 
   public int getDuration() {
@@ -24,19 +20,6 @@ public final class Movie extends Video implements IRating {
   }
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject accept(final VideoVisitor v) throws IOException {
     return v.visit(this);
@@ -63,7 +46,6 @@ public final class Movie extends Video implements IRating {
   public void setRating(final Double db, final String user, final int seasonNum) {
     System.out.println("DAT rate si user -> " + user + " si movie -> " + this.getTitle());
     this.ratings.add(db);
-    this.userRatings.put(user, db);
   }
 
   @Override

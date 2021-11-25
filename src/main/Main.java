@@ -6,11 +6,8 @@ import action.Commands;
 import action.Recommandation;
 import action.UserQuery;
 import action.VideoQuery;
-import action.Query;
 import actor.Actor;
 import database.Database;
-import video.Movie;
-import video.Show;
 import video.Video;
 import database.User;
 import checker.Checkstyle;
@@ -73,6 +70,7 @@ public final class Main {
    * @param filePath2 for output file
    * @throws IOException in case of exceptions to reading / writing
    */
+  @SuppressWarnings("unchecked")
   public static void action(final String filePath1, final String filePath2) throws IOException {
     InputLoader inputLoader = new InputLoader(filePath1);
     Input input = inputLoader.readData();
@@ -101,17 +99,21 @@ public final class Main {
           int seasonNum = act.getActionInp().getSeasonNumber();
 
           if (typeOfCommand.compareTo("view") == 0) {
+            assert us != null;
+            assert vid != null;
             arrayResult.add(comm.view(vid, us, id, fileWriter)); // apelam metoda de view
           }
           if (typeOfCommand.compareTo("favorite") == 0) {
+            assert vid != null;
+            assert us != null;
             arrayResult.add(comm.favorite(vid, us, id, fileWriter));
           }
           if (typeOfCommand.compareTo("rating") == 0) {
+            assert vid != null;
             arrayResult.add(comm.rating(vid, us, id, grade, seasonNum, fileWriter));
           }
         }
         case "query" -> {
-          Query query = new Query(mainDatabase);
           String typeOf = act.getActionInp().getObjectType();
           String typeOfCriteria = act.getActionInp().getCriteria();
           int id = act.getActionInp().getActionId();
@@ -119,13 +121,11 @@ public final class Main {
           String sortType = act.getActionInp().getSortType();
 
           switch (typeOf) {
-            case "actors":
-
+            case "actors" -> {
               ActorQuery aquery = new ActorQuery(mainDatabase);
               ArrayList<Actor> actorsList = mainDatabase.getActorsList();
-
               if (typeOfCriteria.compareTo("average") == 0) {
-              arrayResult.add(aquery.average(id, actorsList, queryNumber, sortType, fileWriter));
+                arrayResult.add(aquery.average(id, actorsList, queryNumber, sortType, fileWriter));
               }
               if (typeOfCriteria.compareTo("awards") == 0) {
                 List<String> awards = act.getActionInp().getFilters().
@@ -141,20 +141,14 @@ public final class Main {
                 arrayResult.add(aquery.filterDescription(id, actorsList, sortType, fileWriter,
                         words));
               }
-              break;
-            case "movies":
-            case "shows":
+            }
+            case "movies", "shows" -> {
               VideoQuery vquery = new VideoQuery(mainDatabase);
               ArrayList<Video> videos = new ArrayList<>();
-
               if (typeOf.compareTo("movies") == 0) {
-                for (Movie mv : mainDatabase.getMoviesList()) {
-                  videos.add(mv);
-                }
+                videos.addAll(mainDatabase.getMoviesList());
               } else {
-                for (Show show : mainDatabase.getShowsList()) {
-                  videos.add(show);
-                }
+                videos.addAll(mainDatabase.getShowsList());
               }
               List<String> yearList = act.getActionInp().getFilters().
                       get(Constants.YEAR_POSITION);
@@ -165,7 +159,6 @@ public final class Main {
                 year = Integer.parseInt(yearList.get(0));
               }
               String genre = genreList.get(0);
-
               if (typeOfCriteria.compareTo("ratings") == 0) {
                 arrayResult.add(vquery.rating(id, videos, queryNumber, sortType,
                         year, genre, fileWriter));
@@ -186,21 +179,22 @@ public final class Main {
                 arrayResult.add(vquery.mostViewed(id, videos, users, queryNumber, sortType,
                         year, genre, fileWriter));
               }
-              break;
-            case "users":
+            }
+            case "users" -> {
               UserQuery uquery = new UserQuery(mainDatabase);
               if (typeOfCriteria.compareTo("num_ratings") == 0) {
                 ArrayList<User> users = mainDatabase.getUsersList();
                 arrayResult.add(uquery.numRatings(id, users, queryNumber, sortType, fileWriter));
 
               }
-              break;
-            default : System.out.println("No type found !");
+            }
+            default -> System.out.println("No type found !");
           }
         }
         case "recommendation" -> {
 
-          Recommandation recom = new Recommandation(mainDatabase);
+          ////Recommandation recom = new Recommandation(mainDatabase);
+          Recommandation recom = new Recommandation();
           User us = mainDatabase.getUserByName(act.getActionInp().getUsername());
           int id = act.getActionInp().getActionId();
           ArrayList<Video> allVids = new ArrayList<>();
@@ -209,22 +203,25 @@ public final class Main {
           String type = act.getActionInp().getType();
 
           if (type.compareTo("standard") == 0) {
-          arrayResult.add(recom.standard(id, allVids, us, fileWriter));
+            assert us != null;
+            arrayResult.add(recom.standard(id, allVids, us, fileWriter));
           break;
           }
 
           if (type.compareTo("best_unseen") == 0) {
 
+            assert us != null;
             arrayResult.add(recom.bestUnseen(id, allVids, us, fileWriter));
             break;
           }
 
+          assert us != null;
           if (us.getSubscriptionType().compareTo("PREMIUM") == 0) {
 
             ArrayList<User> allUsers = mainDatabase.getUsersList();
 
             if (type.compareTo("popular") == 0) {
-            arrayResult.add(recom.popular(id, allVids, us, allUsers, fileWriter));
+            arrayResult.add(recom.popular(id, allVids, us, fileWriter));
             break;
             }
             if (type.compareTo("favorite") == 0) {
@@ -233,7 +230,7 @@ public final class Main {
             }
             if (type.compareTo("search") == 0) {
               String genre = act.getActionInp().getGenre();
-              arrayResult.add(recom.search(id, allVids, us, allUsers, genre, fileWriter));
+              arrayResult.add(recom.search(id, allVids, us, genre, fileWriter));
               break;
             }
           }

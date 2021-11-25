@@ -9,27 +9,14 @@ import java.util.Map;
 
 public final class RatingVisitor implements VideoVisitor {
 
-  private User us;
-  private int id;
-  private double grade;
-  private Writer writer;
-  private int seasonNum;
+  private final User us;
+  private final int id;
+  private final double grade;
+  private final Writer writer;
+  private final int seasonNum;
 
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public RatingVisitor(
       final User us, final int id, final double grade, final Writer writer, final int seasonNum) {
@@ -41,22 +28,9 @@ public final class RatingVisitor implements VideoVisitor {
   }
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject visit(final Movie movie) throws IOException {
-    String str = "";
+    String str;
     String title = movie.getTitle();
 
     if (us.getGivenMovieRatings() != null && us.getGivenMovieRatings().contains(title)) {
@@ -74,19 +48,6 @@ public final class RatingVisitor implements VideoVisitor {
   }
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject visit(final Show show) throws IOException {
     String str;
@@ -109,7 +70,7 @@ public final class RatingVisitor implements VideoVisitor {
     if (this.us.getHistory().containsKey(show.getTitle())) {
 
       show.setRating(grade, null, seasonNum);
-      show.setUsersShowRating(show.getTitle(), this.us.getUsername(), seasonNum, grade);
+      show.setUsersShowRating(this.us.getUsername(), seasonNum, grade);
       us.setNumberOfRatingsGiven(us.getNumberOfRatingsGiven() + 1);
       us.addMovieRating(show.getTitle());
       str =
@@ -122,19 +83,6 @@ public final class RatingVisitor implements VideoVisitor {
   }
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject visit(final Video video) {
     return null;
@@ -154,9 +102,5 @@ public final class RatingVisitor implements VideoVisitor {
 
   public Writer getWriter() {
     return writer;
-  }
-
-  public int getSeasonNum() {
-    return seasonNum;
   }
 }

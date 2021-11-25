@@ -22,51 +22,38 @@ public final class Utils {
     private Utils() {
     }
 
-    /**
-     * Transforms a string into an enum
-     * @param genre of video
-     * @return an Genre Enum
-     */
-    public static Genre stringToGenre(final String genre) {
-        return switch (genre.toLowerCase()) {
-            case "action" -> Genre.ACTION;
-            case "adventure" -> Genre.ADVENTURE;
-            case "drama" -> Genre.DRAMA;
-            case "comedy" -> Genre.COMEDY;
-            case "crime" -> Genre.CRIME;
-            case "romance" -> Genre.ROMANCE;
-            case "war" -> Genre.WAR;
-            case "history" -> Genre.HISTORY;
-            case "thriller" -> Genre.THRILLER;
-            case "mystery" -> Genre.MYSTERY;
-            case "family" -> Genre.FAMILY;
-            case "horror" -> Genre.HORROR;
-            case "fantasy" -> Genre.FANTASY;
-            case "science fiction" -> Genre.SCIENCE_FICTION;
-            case "action & adventure" -> Genre.ACTION_ADVENTURE;
-            case "sci-fi & fantasy" -> Genre.SCI_FI_FANTASY;
-            case "animation" -> Genre.ANIMATION;
-            case "kids" -> Genre.KIDS;
-            case "western" -> Genre.WESTERN;
-            case "tv movie" -> Genre.TV_MOVIE;
-            default -> null;
-        };
-    }
+//    /**
+//     * Transforms a string into an enum
+//     * @param genre of video
+//     * @return an Genre Enum
+//     */
+//    public static Genre stringToGenre(final String genre) {
+//        return switch (genre.toLowerCase()) {
+//            case "action" -> Genre.ACTION;
+//            case "adventure" -> Genre.ADVENTURE;
+//            case "drama" -> Genre.DRAMA;
+//            case "comedy" -> Genre.COMEDY;
+//            case "crime" -> Genre.CRIME;
+//            case "romance" -> Genre.ROMANCE;
+//            case "war" -> Genre.WAR;
+//            case "history" -> Genre.HISTORY;
+//            case "thriller" -> Genre.THRILLER;
+//            case "mystery" -> Genre.MYSTERY;
+//            case "family" -> Genre.FAMILY;
+//            case "horror" -> Genre.HORROR;
+//            case "fantasy" -> Genre.FANTASY;
+//            case "science fiction" -> Genre.SCIENCE_FICTION;
+//            case "action & adventure" -> Genre.ACTION_ADVENTURE;
+//            case "sci-fi & fantasy" -> Genre.SCI_FI_FANTASY;
+//            case "animation" -> Genre.ANIMATION;
+//            case "kids" -> Genre.KIDS;
+//            case "western" -> Genre.WESTERN;
+//            case "tv movie" -> Genre.TV_MOVIE;
+//            default -> null;
+//        };
+//    }
     /**
      * Some javadoc. // OK
-     *
-     * @author Some javadoc. // OK
-     * @version Some javadoc. // OK
-     * @param Some javadoc. // OK
-     * @return Some javadoc. // OK
-     * @throws Some javadoc. // OK
-     * @exception Some javadoc. // OK
-     * @see Some javadoc. // OK
-     * @since Some javadoc. // OK
-     * @serial Some javadoc. // OK
-     * @serialField // OK
-     * @serialData // OK
-     * @deprecated Some javadoc. // OK
      */
     public static String genreToString(final Genre genre) {
         return switch (genre) {
@@ -90,7 +77,6 @@ public final class Utils {
             case KIDS -> "Kids";
             case WESTERN -> "Western";
             case TV_MOVIE -> "Tv Movie";
-            default -> null;
         };
     }
 

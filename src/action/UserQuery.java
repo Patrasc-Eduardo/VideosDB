@@ -15,19 +15,6 @@ public class UserQuery extends Query implements SortMap {
   }
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject numRatings(
       final int id,
@@ -41,7 +28,7 @@ public class UserQuery extends Query implements SortMap {
     HashMap<String, Double> usersNrRat = new HashMap<>();
 
     for (User us : users) {
-      Double rating = Double.valueOf(us.getNumberOfRatingsGiven());
+      double rating = us.getNumberOfRatingsGiven();
       if (Double.compare(rating, 0.0) != 0) {
         usersNrRat.put(us.getUsername(), rating);
       }

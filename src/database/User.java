@@ -18,24 +18,11 @@ public final class User {
     this.subscriptionType = usIn.getSubscriptionType();
     this.favorite = usIn.getFavoriteMovies();
     this.history = usIn.getHistory();
-    this.givenMovieRatings = new ArrayList<String>();
+    this.givenMovieRatings = new ArrayList<>();
     this.numberOfRatingsGiven = 0;
   }
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public int getNumberOfViews(final String title) {
     for (Map.Entry<String, Integer> entry : history.entrySet()) {
@@ -47,19 +34,6 @@ public final class User {
   }
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public void addMovieRating(final String title) {
     this.givenMovieRatings.add(title);

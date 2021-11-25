@@ -1,7 +1,6 @@
 package actor;
 
 import fileio.ActorInputData;
-
 import java.util.ArrayList;
 import java.util.Map;
 

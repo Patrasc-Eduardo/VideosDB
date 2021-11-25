@@ -1,6 +1,5 @@
 package action;
 
-import database.Database;
 import database.User;
 import entertainment.Genre;
 import fileio.Writer;
@@ -15,26 +14,11 @@ import java.util.List;
 import java.util.Map;
 
 public class Recommandation implements SortMap {
-  private Database db;
 
-  public Recommandation(final Database db) {
-    this.db = db;
-  }
+  public Recommandation() { }
+
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject standard(
       final int id, final ArrayList<Video> allVids, final User user, final Writer writer)
@@ -57,17 +41,13 @@ public class Recommandation implements SortMap {
    * Some javadoc. // OK
    *
    * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
    * @param Some javadoc. // OK
    * @return Some javadoc. // OK
    * @throws Some javadoc. // OK
    * @exception Some javadoc. // OK
    * @see Some javadoc. // OK
    * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
    * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject bestUnseen(
       final int id, final ArrayList<Video> allVids, final User user, final Writer writer)
@@ -84,8 +64,11 @@ public class Recommandation implements SortMap {
         videoRatings.put(vid.getTitle(), vid.getRating());
       }
     }
-
-    List<String> names = SortMap.sortMap(videoRatings, "desc", "yes", allVids, 1);
+    ArrayList<String> videoNames = new ArrayList<>();
+    for (Video v : allVids) {
+      videoNames.add(v.getTitle());
+    }
+    List<String> names = SortMap.sortMap(videoRatings, "desc", "yes", videoNames, 1);
     finalStr += "Recommendation result: " + names.get(0);
     return writer.writeFile(id, null, finalStr);
   }
@@ -93,24 +76,16 @@ public class Recommandation implements SortMap {
    * Some javadoc. // OK
    *
    * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
    * @param Some javadoc. // OK
    * @return Some javadoc. // OK
    * @throws Some javadoc. // OK
    * @exception Some javadoc. // OK
    * @see Some javadoc. // OK
    * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
    * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject popular(
-      final int id,
-      final ArrayList<Video> allVids,
-      final User user,
-      final ArrayList<User> allUsers,
-      final Writer writer)
+      final int id, final ArrayList<Video> allVids, final User user, final Writer writer)
       throws IOException {
     String finalStr = "Popular";
 
@@ -130,8 +105,7 @@ public class Recommandation implements SortMap {
             popularGenres.put(Utils.genreToString(gen), 1.0);
           } else {
             popularGenres.put(
-                Utils.genreToString(gen),
-                popularGenres.get(Utils.genreToString(gen)).doubleValue() + 1.0);
+                Utils.genreToString(gen), popularGenres.get(Utils.genreToString(gen)) + 1.0);
           }
           ArrayList<Video> videoList;
           videoList = moviesByGenres.get(Utils.genreToString(gen));
@@ -147,8 +121,11 @@ public class Recommandation implements SortMap {
         }
       }
     }
-
-    List<String> popGenres = SortMap.sortMap(popularGenres, "desc", null, allVids, null);
+    ArrayList<String> videoNames = new ArrayList<>();
+    for (Video v : allVids) {
+      videoNames.add(v.getTitle());
+    }
+    List<String> popGenres = SortMap.sortMap(popularGenres, "desc", null, videoNames, null);
     for (String genre : popGenres) {
       for (Map.Entry<String, ArrayList<Video>> entry : moviesByGenres.entrySet()) {
         if (entry.getKey().compareTo(genre) == 0) {
@@ -168,17 +145,13 @@ public class Recommandation implements SortMap {
    * Some javadoc. // OK
    *
    * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
    * @param Some javadoc. // OK
    * @return Some javadoc. // OK
    * @throws Some javadoc. // OK
    * @exception Some javadoc. // OK
    * @see Some javadoc. // OK
    * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
    * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject favorite(
       final int id,
@@ -197,14 +170,16 @@ public class Recommandation implements SortMap {
           if (!vidsByFavorite.containsKey(vid.getTitle())) {
             vidsByFavorite.put(vid.getTitle(), 1.0);
           } else {
-            vidsByFavorite.put(
-                vid.getTitle(), vidsByFavorite.get(vid.getTitle()).doubleValue() + 1.0);
+            vidsByFavorite.put(vid.getTitle(), vidsByFavorite.get(vid.getTitle()) + 1.0);
           }
         }
       }
     }
-
-    List<String> vidsSorted = SortMap.sortMap(vidsByFavorite, "desc", "yes", allVids, null);
+    ArrayList<String> videoNames = new ArrayList<>();
+    for (Video v : allVids) {
+      videoNames.add(v.getTitle());
+    }
+    List<String> vidsSorted = SortMap.sortMap(vidsByFavorite, "desc", "yes", videoNames, null);
     for (String vid : vidsSorted) {
       if (!user.getHistory().containsKey(vid)) {
         finalStr += "Recommendation result: " + vid;
@@ -218,23 +193,18 @@ public class Recommandation implements SortMap {
    * Some javadoc. // OK
    *
    * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
    * @param Some javadoc. // OK
    * @return Some javadoc. // OK
    * @throws Some javadoc. // OK
    * @exception Some javadoc. // OK
    * @see Some javadoc. // OK
    * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
    * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject search(
       final int id,
       final ArrayList<Video> allVids,
       final User user,
-      final ArrayList<User> allUsers,
       final String genre,
       final Writer writer)
       throws IOException {
@@ -253,12 +223,15 @@ public class Recommandation implements SortMap {
     }
     if (videoRatings.size() != 0) {
       List<String> vidsSorted;
-      vidsSorted = SortMap.sortMap(videoRatings, "asc", null, allVids, null);
+      ArrayList<String> videoNames = new ArrayList<>();
+      for (Video v : allVids) {
+        videoNames.add(v.getTitle());
+      }
+      vidsSorted = SortMap.sortMap(videoRatings, "asc", null, videoNames, null);
       finalStr += "Recommendation result: " + vidsSorted.toString();
-      return writer.writeFile(id, null, finalStr);
     } else {
       finalStr += "Recommendation cannot be applied!";
-      return writer.writeFile(id, null, finalStr);
     }
+    return writer.writeFile(id, null, finalStr);
   }
 }

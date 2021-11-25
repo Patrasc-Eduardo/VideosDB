@@ -20,18 +20,6 @@ public class VideoQuery extends Query implements SortMap {
   /**
    * Some javadoc. // OK
    *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject rating(
       final int id,
@@ -45,7 +33,7 @@ public class VideoQuery extends Query implements SortMap {
 
     String finalStr = "Query result: ";
     HashMap<String, Double> videoRatings = new HashMap<>();
-    Double rating = 0.0;
+    Double rating;
 
     for (Video vid : videos) {
       rating = vid.getRating();
@@ -70,17 +58,13 @@ public class VideoQuery extends Query implements SortMap {
    * Some javadoc. // OK
    *
    * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
    * @param Some javadoc. // OK
    * @return Some javadoc. // OK
    * @throws Some javadoc. // OK
    * @exception Some javadoc. // OK
    * @see Some javadoc. // OK
    * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
    * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject favorite(
       final int id,
@@ -95,7 +79,7 @@ public class VideoQuery extends Query implements SortMap {
 
     String finalStr = "Query result: ";
     HashMap<String, Double> videosOcc = new HashMap<>();
-    Double occ;
+    double occ;
 
     for (Video vid : videos) {
       occ = 0.0;
@@ -125,17 +109,13 @@ public class VideoQuery extends Query implements SortMap {
    * Some javadoc. // OK
    *
    * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
    * @param Some javadoc. // OK
    * @return Some javadoc. // OK
    * @throws Some javadoc. // OK
    * @exception Some javadoc. // OK
    * @see Some javadoc. // OK
    * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
    * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject longest(
       final int id,
@@ -174,17 +154,13 @@ public class VideoQuery extends Query implements SortMap {
    * Some javadoc. // OK
    *
    * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
    * @param Some javadoc. // OK
    * @return Some javadoc. // OK
    * @throws Some javadoc. // OK
    * @exception Some javadoc. // OK
    * @see Some javadoc. // OK
    * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
+   * @serialData // O
    */
   public JSONObject mostViewed(
       final int id,
@@ -200,7 +176,7 @@ public class VideoQuery extends Query implements SortMap {
     HashMap<String, Double> viewed = new HashMap<>();
 
     String title;
-    Double count = 0.0;
+    Double count;
 
     for (User us : users) {
       for (Map.Entry<String, Integer> entry : us.getHistory().entrySet()) {
@@ -242,17 +218,13 @@ public class VideoQuery extends Query implements SortMap {
    * Some javadoc. // OK
    *
    * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
    * @param Some javadoc. // OK
    * @return Some javadoc. // OK
    * @throws Some javadoc. // OK
    * @exception Some javadoc. // OK
    * @see Some javadoc. // OK
    * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
    * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public Video getVideo(final ArrayList<Video> videos, final String title) {
     for (Video vid : videos) {

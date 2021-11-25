@@ -5,6 +5,7 @@ import fileio.SerialInputData;
 import org.json.simple.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,46 +13,20 @@ public final class Show extends Video implements IRating {
 
   private final int numberOfSeasons;
   private final ArrayList<Season> seasons;
-  private HashMap<String, MyVec> seasonRating;
+  private final HashMap<String, MyVec> seasonRating;
 
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public Show(final SerialInputData sh) {
     super(sh.getTitle(), sh.getYear(), sh.getCast(), sh.getGenres());
     this.numberOfSeasons = sh.getNumberSeason();
     this.seasons = sh.getSeasons();
-    seasonRating = new HashMap<String, MyVec>();
+    seasonRating = new HashMap<>();
   }
 
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public JSONObject accept(final VideoVisitor v) throws IOException {
     return v.visit(this);
@@ -59,19 +34,6 @@ public final class Show extends Video implements IRating {
 
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public Double getSeasonRating(final Season season) {
     Double sum = 0.0;
@@ -93,19 +55,6 @@ public final class Show extends Video implements IRating {
 
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   @Override
   public void setRating(final Double db, final String user, final int seasonNum) {
@@ -126,24 +75,11 @@ public final class Show extends Video implements IRating {
 
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   @Override
   public Double getRating() {
-    Double sum = 0.0;
-    Double num = 0.0;
+    double sum = 0.0;
+
     for (Season s : this.seasons) {
       sum += getSeasonRating(s);
     }
@@ -156,22 +92,9 @@ public final class Show extends Video implements IRating {
 
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public void setUsersShowRating(
-      final String title, final String username, final int seasonRated, final double grade) {
+      final String username, final int seasonRated, final double grade) {
 
     if (this.seasonRating.containsKey(username)) {
       for (Map.Entry<String, MyVec> entry : seasonRating.entrySet()) {
@@ -186,19 +109,6 @@ public final class Show extends Video implements IRating {
 
   /**
    * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @version Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serial Some javadoc. // OK
-   * @serialField // OK
-   * @serialData // OK
-   * @deprecated Some javadoc. // OK
    */
   public int getDuration() {
     int finalDur = 0;
@@ -210,10 +120,6 @@ public final class Show extends Video implements IRating {
 
   public HashMap<String, MyVec> getEachSeasonRating() {
     return seasonRating;
-  }
-
-  public int getNumberOfSeasons() {
-    return numberOfSeasons;
   }
 
   public ArrayList<Season> getSeasons() {
@@ -242,28 +148,18 @@ public final class Show extends Video implements IRating {
         + '}';
   }
 
-  public final class MyVec {
-    private int size;
-    private Double[] arr;
-    private Double grade;
-    private int numOfSeason;
+  static final class MyVec {
+    private final Double[] arr;
+    private final Double grade;
 
-    public MyVec(final int size, final int numOfSeason, final double grade) {
-      this.size = size;
+      MyVec(final int size, final int numOfSeason, final double grade) {
 
       arr = new Double[size];
       this.grade = grade;
-      this.numOfSeason = numOfSeason;
-      for (int i = 0; i < arr.length; i++) {
-        arr[i] = 0.0;
-      }
+      Arrays.fill(arr, 0.0);
       if (numOfSeason != 0) {
         arr[numOfSeason - 1] = grade;
       }
-    }
-
-    public int getSize() {
-      return size;
     }
 
     public Double[] getArr() {
@@ -274,8 +170,5 @@ public final class Show extends Video implements IRating {
       return grade;
     }
 
-    public int getNumOfSeason() {
-      return numOfSeason;
-    }
   }
 }
