@@ -1,15 +1,10 @@
 package main;
 
 import action.Action;
-import action.ActorQuery;
 import action.Commands;
+import action.Query;
 import action.Recommandation;
-import action.UserQuery;
-import action.VideoQuery;
-import actor.Actor;
 import database.Database;
-import video.Video;
-import database.User;
 import checker.Checkstyle;
 import checker.Checker;
 import common.Constants;
@@ -22,8 +17,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /** The entry point to this homework. It runs the checker that tests your implentation. */
@@ -70,7 +63,6 @@ public final class Main {
    * @param filePath2 for output file
    * @throws IOException in case of exceptions to reading / writing
    */
-  @SuppressWarnings("unchecked")
   public static void action(final String filePath1, final String filePath2) throws IOException {
     InputLoader inputLoader = new InputLoader(filePath1);
     Input input = inputLoader.readData();
@@ -86,158 +78,18 @@ public final class Main {
       String typeOfAction = act.getActionInp().getActionType();
 
       switch (typeOfAction) {
-        case "command" -> {
+        case Constants.COMMAND -> {
           Commands comm = new Commands();
-
-          String typeOfCommand = act.getActionInp().getType();
-
-          Video vid = mainDatabase.getVideoByTitle(act.getActionInp().getTitle());
-          User us = mainDatabase.getUserByName(act.getActionInp().getUsername());
-
-          int id = act.getActionInp().getActionId();
-          double grade = act.getActionInp().getGrade();
-          int seasonNum = act.getActionInp().getSeasonNumber();
-
-          if (typeOfCommand.compareTo("view") == 0) {
-            assert us != null;
-            assert vid != null;
-            arrayResult.add(comm.view(vid, us, id, fileWriter)); // apelam metoda de view
-          }
-          if (typeOfCommand.compareTo("favorite") == 0) {
-            assert vid != null;
-            assert us != null;
-            arrayResult.add(comm.favorite(vid, us, id, fileWriter));
-          }
-          if (typeOfCommand.compareTo("rating") == 0) {
-            assert vid != null;
-            arrayResult.add(comm.rating(vid, us, id, grade, seasonNum, fileWriter));
-          }
+          comm.init(mainDatabase, act, fileWriter, arrayResult);
         }
-        case "query" -> {
-          String typeOf = act.getActionInp().getObjectType();
-          String typeOfCriteria = act.getActionInp().getCriteria();
-          int id = act.getActionInp().getActionId();
-          int queryNumber = act.getActionInp().getNumber();
-          String sortType = act.getActionInp().getSortType();
+        case Constants.QUERY -> {
+          Query query = new Query();
+          query.init(mainDatabase, act, fileWriter, arrayResult);
 
-          switch (typeOf) {
-            case "actors" -> {
-              ActorQuery aquery = new ActorQuery(mainDatabase);
-              ArrayList<Actor> actorsList = mainDatabase.getActorsList();
-              if (typeOfCriteria.compareTo("average") == 0) {
-                arrayResult.add(aquery.average(id, actorsList, queryNumber, sortType, fileWriter));
-              }
-              if (typeOfCriteria.compareTo("awards") == 0) {
-                List<String> awards = act.getActionInp().getFilters().
-                        get(Constants.AWARDS_POSITION);
-
-                arrayResult.add(aquery.awards(id, actorsList, sortType, fileWriter,
-                        awards));
-
-              }
-              if (typeOfCriteria.compareTo("filter_description") == 0) {
-                List<String> words = act.getActionInp().getFilters().
-                        get(Constants.WORDS_POSITION);
-                arrayResult.add(aquery.filterDescription(id, actorsList, sortType, fileWriter,
-                        words));
-              }
-            }
-            case "movies", "shows" -> {
-              VideoQuery vquery = new VideoQuery(mainDatabase);
-              ArrayList<Video> videos = new ArrayList<>();
-              if (typeOf.compareTo("movies") == 0) {
-                videos.addAll(mainDatabase.getMoviesList());
-              } else {
-                videos.addAll(mainDatabase.getShowsList());
-              }
-              List<String> yearList = act.getActionInp().getFilters().
-                      get(Constants.YEAR_POSITION);
-              List<String> genreList = act.getActionInp().getFilters().
-                      get(Constants.GENRE_POSITION);
-              int year = 0;
-              if (yearList.get(0) != null) {
-                year = Integer.parseInt(yearList.get(0));
-              }
-              String genre = genreList.get(0);
-              if (typeOfCriteria.compareTo("ratings") == 0) {
-                arrayResult.add(vquery.rating(id, videos, queryNumber, sortType,
-                        year, genre, fileWriter));
-              }
-              if (typeOfCriteria.compareTo("favorite") == 0) {
-                ArrayList<User> users = mainDatabase.getUsersList();
-                arrayResult.add(vquery.favorite(id, videos, users, queryNumber, sortType,
-                        year, genre, fileWriter));
-              }
-              if (typeOfCriteria.compareTo("longest") == 0) {
-
-                arrayResult.add(vquery.longest(id, videos, queryNumber, sortType,
-                        year, genre, fileWriter));
-
-              }
-              if (typeOfCriteria.compareTo("most_viewed") == 0) {
-                ArrayList<User> users = mainDatabase.getUsersList();
-                arrayResult.add(vquery.mostViewed(id, videos, users, queryNumber, sortType,
-                        year, genre, fileWriter));
-              }
-            }
-            case "users" -> {
-              UserQuery uquery = new UserQuery(mainDatabase);
-              if (typeOfCriteria.compareTo("num_ratings") == 0) {
-                ArrayList<User> users = mainDatabase.getUsersList();
-                arrayResult.add(uquery.numRatings(id, users, queryNumber, sortType, fileWriter));
-
-              }
-            }
-            default -> System.out.println("No type found !");
-          }
         }
-        case "recommendation" -> {
-
-          ////Recommandation recom = new Recommandation(mainDatabase);
+        case Constants.RECOMMENDATION -> {
           Recommandation recom = new Recommandation();
-          User us = mainDatabase.getUserByName(act.getActionInp().getUsername());
-          int id = act.getActionInp().getActionId();
-          ArrayList<Video> allVids = new ArrayList<>();
-          allVids.addAll(mainDatabase.getMoviesList());
-          allVids.addAll(mainDatabase.getShowsList());
-          String type = act.getActionInp().getType();
-
-          if (type.compareTo("standard") == 0) {
-            assert us != null;
-            arrayResult.add(recom.standard(id, allVids, us, fileWriter));
-          break;
-          }
-
-          if (type.compareTo("best_unseen") == 0) {
-
-            assert us != null;
-            arrayResult.add(recom.bestUnseen(id, allVids, us, fileWriter));
-            break;
-          }
-
-          assert us != null;
-          if (us.getSubscriptionType().compareTo("PREMIUM") == 0) {
-
-            ArrayList<User> allUsers = mainDatabase.getUsersList();
-
-            if (type.compareTo("popular") == 0) {
-            arrayResult.add(recom.popular(id, allVids, us, fileWriter));
-            break;
-            }
-            if (type.compareTo("favorite") == 0) {
-              arrayResult.add(recom.favorite(id, allVids, us, allUsers, fileWriter));
-              break;
-            }
-            if (type.compareTo("search") == 0) {
-              String genre = act.getActionInp().getGenre();
-              arrayResult.add(recom.search(id, allVids, us, genre, fileWriter));
-              break;
-            }
-          }
-
-            arrayResult.add(fileWriter.writeFile(id, null,
-                    "PopularRecommendation cannot be applied!"));
-
+          recom.init(mainDatabase, act, fileWriter, arrayResult);
         }
         default -> System.out.println("No command found !");
       }

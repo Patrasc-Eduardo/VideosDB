@@ -1,6 +1,9 @@
 package action;
 
+import common.Constants;
+import database.Database;
 import database.User;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import video.RatingVisitor;
 import video.Video;
@@ -13,9 +16,40 @@ import java.util.Map;
 public final class Commands extends Action {
 
   public Commands() { }
-  /**
-   * Some javadoc. // OK
-   */
+  /** Some javadoc. // OK */
+  @SuppressWarnings("unchecked")
+  public void init(
+      final Database mainDatabase,
+      final Action act,
+      final Writer fileWriter,
+      final JSONArray arrayResult)
+      throws IOException {
+    String typeOfCommand = act.getActionInp().getType();
+
+    Video vid = mainDatabase.getVideoByTitle(act.getActionInp().getTitle());
+    User us = mainDatabase.getUserByName(act.getActionInp().getUsername());
+
+    int id = act.getActionInp().getActionId();
+    double grade = act.getActionInp().getGrade();
+    int seasonNum = act.getActionInp().getSeasonNumber();
+
+    if (typeOfCommand.compareTo(Constants.VIEW) == 0) {
+      assert us != null;
+      assert vid != null;
+      arrayResult.add(this.view(vid, us, id, fileWriter)); // apelam metoda de view
+    }
+    if (typeOfCommand.compareTo(Constants.FAVORITE) == 0) {
+      assert vid != null;
+      assert us != null;
+      arrayResult.add(this.favorite(vid, us, id, fileWriter));
+    }
+    if (typeOfCommand.compareTo(Constants.RATING) == 0) {
+      assert vid != null;
+      arrayResult.add(this.rating(vid, us, id, grade, seasonNum, fileWriter));
+    }
+  }
+
+  /** Some javadoc. // OK */
   public JSONObject favorite(final Video vid, final User user, final int id, final Writer writer)
       throws IOException {
 
@@ -40,9 +74,7 @@ public final class Commands extends Action {
     return writer.writeFile(id, null, str);
   }
 
-  /**
-   * Some javadoc. // OK
-   */
+  /** Some javadoc. // OK */
   public JSONObject view(final Video vid, final User user, final int id, final Writer writer)
       throws IOException {
 
@@ -63,9 +95,7 @@ public final class Commands extends Action {
 
     return writer.writeFile(id, null, str);
   }
-  /**
-   * Some javadoc. // OK
-   */
+  /** Some javadoc. // OK */
   public JSONObject rating(
       final Video vid,
       final User us,

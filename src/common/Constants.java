@@ -46,14 +46,9 @@ public final class Constants {
     public static final String SEASON = "season";
     public static final String GRADE = "grade";
     public static final String AWARDS = "awards";
-    //public static final String NUM_RATINGS = "num_ratings";
-    public static final String FILTER_DESCRIPTIONS = "filter_description";
-    public static final String WORDS = "words";
-    public static final String REVIEWS = "reviews";
-    public static final String MESSAGE = "message";
-    public static final String QUERY = "query";
-    public static final String COMMAND = "command";
-    public static final String RECOMMENDATION = "recommendation";
+
+
+
 
     // checker constants
     public static final String ID_STRING = "id";
@@ -79,4 +74,26 @@ public final class Constants {
     public static final int GENRE_POSITION = 1;
     public static final int AWARDS_POSITION = 3;
     public static final int WORDS_POSITION = 2;
+    public static final String AVERAGE = "average";
+    public static final String FILTER_DESCRIPTIONS = "filter_description";
+    public static final String WORDS = "words";
+    public static final String REVIEWS = "reviews";
+    public static final String MESSAGE = "message";
+    public static final String QUERY = "query";
+    public static final String COMMAND = "command";
+    public static final String RECOMMENDATION = "recommendation";
+    public static final String RATINGS = "ratings";
+    public static final String FAVORITE = "favorite";
+    public static final String LONGEST = "longest";
+    public static final String MOST_VIEWED = "most_viewed";
+    public static final String NUMBER_OF_RATINGS = "num_ratings";
+    public static final String VIEW = "view";
+    public static final String RATING = "rating";
+    public static final String STANDARD = "standard";
+    public static final String BEST_UNSEEN = "best_unseen";
+    public static final String PREMIUM = "PREMIUM";
+    public static final String POPULAR = "popular";
+    public static final String SEARCH = "search";
+    public static final String ASC = "asc";
+    public static final String desc = "desc";
 }

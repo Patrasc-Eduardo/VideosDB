@@ -44,7 +44,6 @@ public final class Movie extends Video implements IRating {
 
   @Override
   public void setRating(final Double db, final String user, final int seasonNum) {
-    System.out.println("DAT rate si user -> " + user + " si movie -> " + this.getTitle());
     this.ratings.add(db);
   }
 

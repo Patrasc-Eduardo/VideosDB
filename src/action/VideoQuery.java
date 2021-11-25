@@ -58,13 +58,6 @@ public class VideoQuery extends Query implements SortMap {
    * Some javadoc. // OK
    *
    * @author Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serialData // OK
    */
   public JSONObject favorite(
       final int id,
@@ -109,13 +102,6 @@ public class VideoQuery extends Query implements SortMap {
    * Some javadoc. // OK
    *
    * @author Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serialData // OK
    */
   public JSONObject longest(
       final int id,
@@ -154,13 +140,6 @@ public class VideoQuery extends Query implements SortMap {
    * Some javadoc. // OK
    *
    * @author Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serialData // O
    */
   public JSONObject mostViewed(
       final int id,
@@ -218,13 +197,6 @@ public class VideoQuery extends Query implements SortMap {
    * Some javadoc. // OK
    *
    * @author Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serialData // OK
    */
   public Video getVideo(final ArrayList<Video> videos, final String title) {
     for (Video vid : videos) {

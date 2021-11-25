@@ -1,8 +1,11 @@
 package action;
 
+import common.Constants;
+import database.Database;
 import database.User;
 import entertainment.Genre;
 import fileio.Writer;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.Utils;
 import video.Video;
@@ -16,10 +19,57 @@ import java.util.Map;
 public class Recommandation implements SortMap {
 
   public Recommandation() { }
+  /** Some javadoc. // OK */
+  @SuppressWarnings("unchecked")
+  public void init(
+      final Database mainDatabase,
+      final Action act,
+      final Writer fileWriter,
+      final JSONArray arrayResult)
+      throws IOException {
+    User us = mainDatabase.getUserByName(act.getActionInp().getUsername());
+    int id = act.getActionInp().getActionId();
+    ArrayList<Video> allVids = new ArrayList<>();
+    allVids.addAll(mainDatabase.getMoviesList());
+    allVids.addAll(mainDatabase.getShowsList());
+    String type = act.getActionInp().getType();
 
-  /**
-   * Some javadoc. // OK
-   */
+    if (type.compareTo(Constants.STANDARD) == 0) {
+      assert us != null;
+      arrayResult.add(this.standard(id, allVids, us, fileWriter));
+      return;
+    }
+
+    if (type.compareTo(Constants.BEST_UNSEEN) == 0) {
+
+      assert us != null;
+      arrayResult.add(this.bestUnseen(id, allVids, us, fileWriter));
+      return;
+    }
+
+    assert us != null;
+    if (us.getSubscriptionType().compareTo(Constants.PREMIUM) == 0) {
+
+      ArrayList<User> allUsers = mainDatabase.getUsersList();
+
+      if (type.compareTo(Constants.POPULAR) == 0) {
+        arrayResult.add(this.popular(id, allVids, us, fileWriter));
+        return;
+      }
+      if (type.compareTo(Constants.FAVORITE) == 0) {
+        arrayResult.add(this.favorite(id, allVids, us, allUsers, fileWriter));
+        return;
+      }
+      if (type.compareTo(Constants.SEARCH) == 0) {
+        String genre = act.getActionInp().getGenre();
+        arrayResult.add(this.search(id, allVids, us, genre, fileWriter));
+        return;
+      }
+    }
+
+    arrayResult.add(fileWriter.writeFile(id, null, "PopularRecommendation cannot be applied!"));
+  }
+  /** Some javadoc. // OK */
   public JSONObject standard(
       final int id, final ArrayList<Video> allVids, final User user, final Writer writer)
       throws IOException {
@@ -37,18 +87,7 @@ public class Recommandation implements SortMap {
     }
     return null;
   }
-  /**
-   * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serialData // OK
-   */
+  /** Some javadoc. // OK */
   public JSONObject bestUnseen(
       final int id, final ArrayList<Video> allVids, final User user, final Writer writer)
       throws IOException {
@@ -72,18 +111,7 @@ public class Recommandation implements SortMap {
     finalStr += "Recommendation result: " + names.get(0);
     return writer.writeFile(id, null, finalStr);
   }
-  /**
-   * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serialData // OK
-   */
+  /** Some javadoc. // OK */
   public JSONObject popular(
       final int id, final ArrayList<Video> allVids, final User user, final Writer writer)
       throws IOException {
@@ -141,18 +169,7 @@ public class Recommandation implements SortMap {
     finalStr += "Recommendation cannot be applied!";
     return writer.writeFile(id, null, finalStr);
   }
-  /**
-   * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serialData // OK
-   */
+  /** Some javadoc. // OK */
   public JSONObject favorite(
       final int id,
       final ArrayList<Video> allVids,
@@ -189,18 +206,7 @@ public class Recommandation implements SortMap {
     finalStr += "Recommendation cannot be applied!";
     return writer.writeFile(id, null, finalStr);
   }
-  /**
-   * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @param Some javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws Some javadoc. // OK
-   * @exception Some javadoc. // OK
-   * @see Some javadoc. // OK
-   * @since Some javadoc. // OK
-   * @serialData // OK
-   */
+  /** Some javadoc. // OK */
   public JSONObject search(
       final int id,
       final ArrayList<Video> allVids,
