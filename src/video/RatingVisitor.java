@@ -16,7 +16,8 @@ public final class RatingVisitor implements VideoVisitor {
   private final int seasonNum;
 
   /**
-   * Some javadoc. // OK
+   Constructorul pentru clasa de visitor.
+   Aici sunt setate campurile cu informatiile de care avem nevoie pentru implementarea ratingului.
    */
   public RatingVisitor(
       final User us, final int id, final double grade, final Writer writer, final int seasonNum) {
@@ -27,7 +28,17 @@ public final class RatingVisitor implements VideoVisitor {
     this.seasonNum = seasonNum;
   }
   /**
-   * Some javadoc. // OK
+   Metoda ofera un rating pentru filme.
+   Se verifica daca filmul nu este deja rated de acel user sau daca filmul exista in istoricul
+   userului (si se afiseaza eroarea corespunzatoare).
+   Se adauga titlul filmului in lista de videouri rated ale userului.
+   Se incrementeaza numarul de ratings date ale userului.
+   Se actualizeaza lista cu ratinguri primite ale filmului.
+   Se afiseaza successul in JSONObject.
+
+   @param movie Filmul care primeste rating.
+   @return JSONObjectul in care se face afisarea.
+   @throws IOException Exceptie generata de scrierea in JSONObject.
    */
   public JSONObject visit(final Movie movie) throws IOException {
     String str;
@@ -47,7 +58,22 @@ public final class RatingVisitor implements VideoVisitor {
     return writer.writeFile(id, null, str);
   }
   /**
-   * Some javadoc. // OK
+   Metoda ofera un rating pentru sezonul unui serial.
+   Se verifica daca sezonul serialului nu este deja rated de acel user sau daca filmul exista in
+   istoricul userului (si se afiseaza eroarea corespunzatoare).
+
+   Clasa Show contine un map care are drept cheie numele unui user si drept valoare o clasa "MyVec"
+   care retine un array ce reprezinta un vector de frecventa pentru sezonele serialului.(Daca un
+   user ofera un rating la sezonul 2 -> al doilea element din acest vector este actualizat cu
+   valoarea ratingului).
+
+   Daca nu ne aflam in conditiile de eroare, sunt actualizate campurile de rating ale serialului
+   (inclusiv mapu-ul mentionat mai sus) si este incrementat numarul de ratinguri oferite ale
+   userului.
+
+   @param show Serialul care primeste rating.
+   @return JSONObjectul in care se face afisarea.
+   @throws IOException Exceptie generata de scrierea in JSONObject.
    */
   public JSONObject visit(final Show show) throws IOException {
     String str;
@@ -82,7 +108,7 @@ public final class RatingVisitor implements VideoVisitor {
     return writer.writeFile(id, null, str);
   }
   /**
-   * Some javadoc. // OK
+   Metoda de visit si pentru video care nu are o anumita functionalitate.
    */
   public JSONObject visit(final Video video) {
     return null;

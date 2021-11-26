@@ -5,24 +5,18 @@ import java.io.IOException;
 
 public interface VideoVisitor {
   /**
-   * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @serialData // OK
+   Metoda de visit ajutatoare pentru patternul "visitor".
+   Aceasta permite "vizitarea" unui Video.
    */
   JSONObject visit(Video video) throws IOException;
   /**
-   * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @serialData // OK
+   Metoda de visit ajutatoare pentru patternul "visitor".
+   Aceasta permite "vizitarea" unui serial.
    */
   JSONObject visit(Show show) throws IOException;
   /**
-   * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
-   * @serialData // OK
+   Metoda de visit ajutatoare pentru patternul "visitor".
+   Aceasta permite "vizitarea" unui film.
    */
   JSONObject visit(Movie movie) throws IOException;
 }

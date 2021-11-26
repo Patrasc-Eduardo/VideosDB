@@ -19,14 +19,28 @@ import java.util.regex.Pattern;
 
 public final class ActorQuery extends Query implements SortMap {
   /**
-   * Some javadoc. // OK
+   * Constructor
+   * @param db baza de date principala
    */
   public ActorQuery(final Database db) {
     super(db);
   }
 
   /**
-   * Some javadoc. // OK
+   * Pentru fiecare actor parcurgem filmografia si obtinem
+   * ratingul fiecarui film/serial in care a jucat.
+   * Daca rating != 0 atunci punem numele actorului si ratingul
+   * total intr-un map care va fi sortat in functie de sortType
+   * specificat.
+   *
+   * @param id ID-ul actiunii.
+   * @param actors Lista de actori.
+   * @param number Numarul de elemente pe care vrem sa-l returnam in query.
+   * @param sortType Tipul de sortare dorit (asc sau desc).
+   * @param writer Obiectul prin care se va face scrierea in JSONObject.
+   * @return Obiectul json care va fi pus in arrayResult din main.
+   * @throws IOException Exceptie generata de scrierea in JSONObject.
+   *
    */
   public JSONObject average(
       final int id,
@@ -40,6 +54,7 @@ public final class ActorQuery extends Query implements SortMap {
     HashMap<String, Double> actorsRatings = new HashMap<>();
 
     for (Actor act : actors) {
+
       double bigRating = 0.0;
       int count = 0;
 
@@ -48,16 +63,11 @@ public final class ActorQuery extends Query implements SortMap {
         Double rating = 0.0;
 
         if (this.getDb().getVideoByTitle(str) != null) {
-          try {
             rating = Objects.requireNonNull(this.getDb().getVideoByTitle(str)).getRating();
-          } catch (NullPointerException e) {
-            System.out.println("Rating is null");
-          }
           if (Double.compare(rating, 0.0) != 0) {
             count++;
           }
         }
-
         bigRating += rating;
       }
 
@@ -75,7 +85,19 @@ public final class ActorQuery extends Query implements SortMap {
     return writer.writeFile(id, null, finalStr);
   }
   /**
-   * Some javadoc. // OK
+   * Pentru fiecare actor parcurgem award-urile sale si obtinem
+   * numarul de awarduri din fiecare tip.
+   * Daca actorul contine awardurile specificate, adunam toate
+   * awardurile si obtinem un numar total de awarduri dupa care
+   * se va face sortarea.
+   *
+   * @param id ID-ul actiunii.
+   * @param actors Lista de actori.
+   * @param sortType Tipul de sortare dorit (asc sau desc).
+   * @param writer Obiectul prin care se va face scrierea in JSONObject.
+   * @param awards Lista de awards.
+   * @return Obiectul json care va fi pus in arrayResult din main.
+   * @throws IOException Exceptie generata de scrierea in JSONObject.
    */
   public JSONObject awards(
       final int id,
@@ -97,6 +119,7 @@ public final class ActorQuery extends Query implements SortMap {
     int count;
     Double sumAwards;
     for (Actor act : actors) {
+
       count = 0;
       sumAwards = 0.0;
 
@@ -105,6 +128,7 @@ public final class ActorQuery extends Query implements SortMap {
 
           sumAwards += entry.getValue();
           count++;
+
         } else {
           sumAwards += entry.getValue();
         }
@@ -122,12 +146,20 @@ public final class ActorQuery extends Query implements SortMap {
     return writer.writeFile(id, null, finalStr);
   }
   /**
-   * Some javadoc. // OK
+   * Pentru fiecare actor parcurgem descrierea acestuia
+   * si prin obiectul Pattern verificam daca aceasta contine
+   * cuvintele specificate. Pentru a acoperi toate modurile
+   * in care respectivele cuvinte pot aparea (litere mari/mici,
+   * urmate/terminate cu cratima, etc) , vom transforma descrierea
+   * in LowerCase si vom folosi regex.
    *
-   * @author Some javadoc. // OK
-   * @param id javadoc. // OK
-   * @return Some javadoc. // OK
-   * @throws IOException // OK
+   * @param id ID-ul actiunii.
+   * @param actors Lista de actori.
+   * @param sortType Tipul de sortare dorit (asc sau desc).
+   * @param writer Obiectul prin care se va face scrierea in JSONObject.
+   * @param words Lista de cuvinte dupa care se face cautarea.
+   * @return Obiectul json care va fi pus in arrayResult din main.
+   * @throws IOException Exceptie generata de scrierea in JSONObject.
    */
   public JSONObject filterDescription(
       final int id,

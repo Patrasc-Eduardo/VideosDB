@@ -16,7 +16,17 @@ import java.util.Map;
 public final class Commands {
 
   public Commands() { }
-  /** Some javadoc. // OK */
+  /**
+   * Verifica tipul comenzii si
+   * executa metoda aferenta.
+   *
+   * @param mainDatabase Baza de date.
+   * @param act Actiunea de unde vom prelua tipul comenzii, id-ul si alte informatii de care
+   *            mai avem nevoie
+   * @param fileWriter  Obiectul prin care se va face scrierea in JSONObject.
+   * @param arrayResult Obiectul in care se stocheaza rezultatul actiunilor.
+   * @throws IOException Exceptie generata de scrierea in JSONObject.
+   * */
   @SuppressWarnings("unchecked")
   public void init(
       final Database mainDatabase,
@@ -36,7 +46,7 @@ public final class Commands {
     if (typeOfCommand.compareTo(Constants.VIEW) == 0) {
       assert us != null;
       assert vid != null;
-      arrayResult.add(this.view(vid, us, id, fileWriter)); // apelam metoda de view
+      arrayResult.add(this.view(vid, us, id, fileWriter));
     }
     if (typeOfCommand.compareTo(Constants.FAVORITE) == 0) {
       assert vid != null;
@@ -49,7 +59,15 @@ public final class Commands {
     }
   }
 
-  /** Some javadoc. // OK */
+  /**
+   * Adauga un video in lista de favorite a userului
+   *
+   * @param vid Videoul pe care vrem sa-l adaugam.
+   * @param user Userul in lista caruia vrem sa adaugam.
+   * @param id ID-ul actiunii
+   * @param writer  Obiectul prin care se va face scrierea in JSONObject.
+   * @return Obiectul json care va fi pus in arrayResult din main.
+   * @throws IOException Exceptie generata de scrierea in JSONObject. */
   public JSONObject favorite(final Video vid, final User user, final int id, final Writer writer)
       throws IOException {
 
@@ -74,7 +92,15 @@ public final class Commands {
     return writer.writeFile(id, null, str);
   }
 
-  /** Some javadoc. // OK */
+  /**
+   * Adauga un video in istoricul de vizionari a userului
+   *
+   * @param vid Videoul pe care vrem sa-l adaugam.
+   * @param user Userul in lista caruia vrem sa adaugam.
+   * @param id ID-ul actiunii
+   * @param writer  Obiectul prin care se va face scrierea in JSONObject.
+   * @return Obiectul json care va fi pus in arrayResult din main.
+   * @throws IOException Exceptie generata de scrierea in JSONObject. */
   public JSONObject view(final Video vid, final User user, final int id, final Writer writer)
       throws IOException {
 
@@ -95,7 +121,18 @@ public final class Commands {
 
     return writer.writeFile(id, null, str);
   }
-  /** Some javadoc. // OK */
+  /**
+   * Dam rate la un video. Deoarece ratingul se face diferit la filme si seriale
+   * si deoarece nu stim tipul video-ului la run-time , folosim un "visitor" pattern.
+   *
+   * @param vid Videoul caruia vrem sa-i dam un rating.
+   * @param us Userul care da ratingul.
+   * @param id ID-ul actiunii
+   * @param grade Ratingul.
+   * @param seasonNumb Sezonul la care dam rating daca este cazul unui serial.
+   * @param writer  Obiectul prin care se va face scrierea in JSONObject.
+   * @return Obiectul json care va fi pus in arrayResult din main.
+   * @throws IOException Exceptie generata de scrierea in JSONObject. */
   public JSONObject rating(
       final Video vid,
       final User us,

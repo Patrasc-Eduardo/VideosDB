@@ -5,10 +5,9 @@ import java.io.IOException;
 
 public interface VideoVisitable {
     /**
-     * Some javadoc. // OK
-     *
-     * @author Some javadoc. // OK
-     * @serialData // OK
+     Metoda de accept ajutatoare pentru patternul "visitor".
+     Aceasta este apelata din fiecare subclasa pe care vrem sa o prelucram
+     prin clasa de visitor "RatingVisitor"
      */
     JSONObject accept(VideoVisitor v) throws IOException;
 }

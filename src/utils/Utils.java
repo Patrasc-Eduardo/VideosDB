@@ -53,7 +53,10 @@ public final class Utils {
 //        };
 //    }
     /**
-     * Some javadoc. // OK
+     Transforma un gen din enumul de genuri intr-un string.
+
+     @param genre Genul pe care vrem sa-l transformam.
+     @return Genul sub forma de String.
      */
     public static String genreToString(final Genre genre) {
         return switch (genre) {

@@ -34,86 +34,91 @@ public class Video implements VideoVisitable {
     this.genre = genres;
   }
   /**
-   * Some javadoc. // OK
+   Aceasta metoda este necesara pentru overriding din subclasele de Movie si Show.
+   Chiar daca metoda nu are o functionalitate aparte, ea este implementata deoarece
+   de-a lungul programului nu stim daca videoul pe care vrem sa facem prelucrare este
+   Movie sau Show.
    */
   public Double getRating() {
     return 0.0;
   }
   /**
-   * Some javadoc. // OK
+   Aceasta metoda este necesara pentru overriding din subclasele de Movie si Show.
+   Chiar daca metoda nu are o functionalitate aparte, ea este implementata deoarece
+   de-a lungul programului nu stim daca videoul pe care vrem sa facem prelucrare este
+   Movie sau Show.
    */
   public int getDuration() {
     return 0;
   }
 
   /**
-   * Some javadoc. // OK
-
+   Metoda de accept pentru patternul "visitor"
+   @param v Clasa de visitor.
+   @return JSONObjectul in care facem afisarea.
    */
   public JSONObject accept(final VideoVisitor v) throws IOException {
     return v.visit(this);
   }
   /**
-   * Some javadoc. // OK
-
+   Intoarce lista de ratings ale videoului. Aceasta nu va fi apelata niciodata la run-time
+   ci doar la compile-time. La run-time getRatings() se apeleaza doar pentru clasa Movie sau Show,
+   in functie de caz.
    */
   public List<Double> getRatings() {
     return ratings;
   }
   /**
-   * Some javadoc. // OK
+   Seteaza lista de ratings ale videoului.
    */
   public void setRatings(final List<Double> ratings) {
     this.ratings = ratings;
   }
 
   /**
-   * Some javadoc. // OK
-   K
+   Intoarce numele videoului.
    */
   public String getTitle() {
     return title;
   }
   /**
-   * Some javadoc. // OK
+   Seteaza numele videoului.
    */
   public void setTitle(final String title) {
     this.title = title;
   }
   /**
-   * Some javadoc. // OK
-   K
+   Intoarce anul videoului.
    */
   public int getYear() {
     return year;
   }
   /**
-   * Some javadoc. // OK
+   Seteaza anului videoului.
    */
   public void setYear(final int year) {
     this.year = year;
   }
   /**
-   * Some javadoc. // OK
-   K
+   Intoarce lista de genuri ale videoului.
    */
   public ArrayList<String> getGenre() {
     return genre;
   }
-  /**
-   * Some javadoc. // OK
+   /**
+   Seteaza lista de genuri ale videoului.
    */
   public void setGenre(final ArrayList<String> genre) {
     this.genre = genre;
   }
   /**
-   * Some javadoc. // OK
+   Intoarce castul unui video.
    */
   public ArrayList<String> getCast() {
     return cast;
   }
   /**
-   * Some javadoc. // OK
+   Seteaza castul unui video.
    */
   public void setCast(final ArrayList<String> cast) {
     this.cast = cast;

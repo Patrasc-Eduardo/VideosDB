@@ -19,7 +19,9 @@ public final class Movie extends Video implements IRating {
     return duration;
   }
   /**
-   * Some javadoc. // OK
+   Metoda de accept pentru patternul "visitor"
+   @param v Clasa de visitor.
+   @return JSONObjectul in care facem afisarea.
    */
   public JSONObject accept(final VideoVisitor v) throws IOException {
     return v.visit(this);

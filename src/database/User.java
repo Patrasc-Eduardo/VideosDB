@@ -22,7 +22,9 @@ public final class User {
     this.numberOfRatingsGiven = 0;
   }
   /**
-   * Some javadoc. // OK
+   Intoarce numarul de vizualizari ale unui video din istoric userului.
+   @param title Numele videoului cautat.
+   @return numarul de vizualizari ale videoului.
    */
   public int getNumberOfViews(final String title) {
     for (Map.Entry<String, Integer> entry : history.entrySet()) {
@@ -33,12 +35,12 @@ public final class User {
     return 0;
   }
   /**
-   * Some javadoc. // OK
+   Adauga numele unui video in lista de videouri "rated" ale userului.
+   @param title Numele videoului.
    */
   public void addMovieRating(final String title) {
     this.givenMovieRatings.add(title);
   }
-
 
   public String getUsername() {
     return username;

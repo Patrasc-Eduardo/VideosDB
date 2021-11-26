@@ -50,7 +50,9 @@ public final class Database {
     }
   }
   /**
-   * Some javadoc. // OK
+   Metoda intoarce un User dupa un string oferit ca param.
+   @param name Stringul de nume dupa care se face cautarea.
+   @return userul cu numele dat ca param al functiei.
    */
   public User getUserByName(final String name) {
     for (User us : usersList) {
@@ -61,7 +63,9 @@ public final class Database {
     return null;
   }
   /**
-   * Some javadoc. // OK
+   Metoda intoarce un Video dupa un string oferit ca param.
+   @param title Stringul de nume dupa care se face cautarea.
+   @return videoul cu numele dat ca param al functiei.
    */
   public Video getVideoByTitle(final String title) {
     for (Movie vid : moviesList) {

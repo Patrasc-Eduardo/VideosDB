@@ -19,7 +19,17 @@ import java.util.Map;
 public class Recommendation implements SortMap {
 
   public Recommendation() { }
-  /** Some javadoc. // OK */
+  /**
+   * Verifica tipul recomandarii si
+   * executa metoda aferenta.
+   *
+   * @param mainDatabase Baza de date.
+   * @param act Actiunea de unde vom prelua tipul comenzii, id-ul si ce alte informatii mai avem
+   *            nevoie
+   * @param fileWriter  Obiectul prin care se va face scrierea in JSONObject.
+   * @param arrayResult Obiectul in care se stocheaza rezultatul actiunilor.
+   * @throws IOException Exceptie generata de scrierea in JSONObject.
+   * */
   @SuppressWarnings("unchecked")
   public void init(
       final Database mainDatabase,
@@ -69,7 +79,18 @@ public class Recommendation implements SortMap {
 
     arrayResult.add(fileWriter.writeFile(id, null, "PopularRecommendation cannot be applied!"));
   }
-  /** Some javadoc. // OK */
+  /** Recomandarea care intoarce primul video din baza de date
+   *  nevizionat de user. Se verifica mai intai daca userul are videoclipuri
+   *  nevizionate, apoi luam videoruile pe rand si daca nu exista in istoricul
+   *  utilizatorului, il afisam ca rezultat al recomandarii.
+   *
+   *  @param id ID-ul actiunii.
+   *  @param allVids Toate videoclipurile din baza de date (filme si seriale in ordinea lor naturala
+   *                  de aparitie).
+   * @param user Userul pentru care se face recomandarea.
+   * @param writer Obiectul prin care se face afisare in JSONObject.
+   * @throws IOException Exceptie generata de scrierea in JSONObject.
+   * */
   public JSONObject standard(
       final int id, final ArrayList<Video> allVids, final User user, final Writer writer)
       throws IOException {
@@ -87,7 +108,20 @@ public class Recommendation implements SortMap {
     }
     return null;
   }
-  /** Some javadoc. // OK */
+  /** Recomandarea care intoarce primul video din baza de date
+   *  nevizionat de user(cel mai bun, dupa rating). Se verifica mai intai
+   *  daca userul are videoclipuri nevizionate, apoi luam videoruile pe rand
+   *  si daca nu exista in istoricul userului, le punem intr-un map drept cheie
+   *  si ratingul lor drept valoare. Sortam dictionarul descrescator si intoarcem
+   *  primul videoclip care va fi cel mai bun.
+   *
+   *  @param id ID-ul actiunii.
+   *  @param allVids Toate videoclipurile din baza de date (filme si seriale in ordinea lor naturala
+   *                  de aparitie).
+   * @param user Userul pentru care se face recomandarea.
+   * @param writer Obiectul prin care se face afisare in JSONObject.
+   * @throws IOException Exceptie generata de scrierea in JSONObject.
+   * */
   public JSONObject bestUnseen(
       final int id, final ArrayList<Video> allVids, final User user, final Writer writer)
       throws IOException {
@@ -111,7 +145,26 @@ public class Recommendation implements SortMap {
     finalStr += "Recommendation result: " + names.get(0);
     return writer.writeFile(id, null, finalStr);
   }
-  /** Some javadoc. // OK */
+  /** Recomandarea care intoarce primul video din baza de date
+   *  nevizionat de user(din cel mai popular gen).
+   *  Parcurgem lista de genuri, iar pentru fiecare gen parcurgem
+   *  de fiecare data lista de videouri.
+   *  La fiecare iteratie, daca videoul contine respectivul gen, incrementam
+   *  intr-un map numarul de aparatii al genului (popularitatea acestuia) si
+   *  adaugam intr-un alt map video-ul drept valoare (cheia fiind genul).
+   *
+   *  Sortam Map-ul de genuri descrescator si il parcurgem treptat. Daca pentru un gen
+   *  gasim un videoclip care nu este vizualizat (aici intervine al doilea map) , atunci
+   *  acesta va fi rezultatul recomandarii.
+   *
+   *  @param id ID-ul actiunii.
+   *  @param allVids Toate videoclipurile din baza de date (filme si seriale in ordinea lor naturala
+   *                  de aparitie).
+   * @param user Userul pentru care se face recomandarea.
+   * @param writer Obiectul prin care se face afisare in JSONObject.
+   * @return Obiectul json care va fi pus in arrayResult din main.
+   * @throws IOException Exceptie generata de scrierea in JSONObject.
+   * */
   public JSONObject popular(
       final int id, final ArrayList<Video> allVids, final User user, final Writer writer)
       throws IOException {
@@ -169,7 +222,22 @@ public class Recommendation implements SortMap {
     finalStr += "Recommendation cannot be applied!";
     return writer.writeFile(id, null, finalStr);
   }
-  /** Some javadoc. // OK */
+  /** Recomandarea care intoarce videclipul cel mai des intalnit in listele de favorite ale
+   * utilizatorilor.
+   * Parcurgem toate videoclipurile din database si le cautam in listele de favorite ale
+   * tuturor utilizatorilor. Daca le gasim, le adadaugam intr-un map cu numele lor drept cheie
+   * si numarul de aparitii drept valoare.
+   * Sortam map-ul drescrescator si intoarcem cel mai bun video.
+   *
+   *  @param id ID-ul actiunii.
+   *  @param allVids Toate videoclipurile din baza de date (filme si seriale in ordinea lor naturala
+   *                  de aparitie).
+   * @param user Userul pentru care se face recomandarea.
+   * @param allUsers Toti utilizatorii din baza de date.
+   * @param writer Obiectul prin care se face afisare in JSONObject.
+   * @return Obiectul json care va fi pus in arrayResult din main.
+   * @throws IOException Exceptie generata de scrierea in JSONObject.
+   * */
   public JSONObject favorite(
       final int id,
       final ArrayList<Video> allVids,
@@ -206,7 +274,21 @@ public class Recommendation implements SortMap {
     finalStr += "Recommendation cannot be applied!";
     return writer.writeFile(id, null, finalStr);
   }
-  /** Some javadoc. // OK */
+  /** Recomandarea care intoarce toate videoclipurile dintr-un anumit gen, nevazute de user.
+   *  Parcugem lista totala de videoclipuri si , pentru fiecare video, daca contine genul cerute si
+   *  daca nu se afla in istoricul de vizionari ale userului, punem numele videoului intr-un map
+   *  avand drept valoare ratingul.
+   *  Sortam descrescator map-ul si afisam lista de videouri.
+   *
+   *  @param id ID-ul actiunii.
+   *  @param allVids Toate videoclipurile din baza de date (filme si seriale in ordinea lor naturala
+   *                  de aparitie).
+   * @param user Userul pentru care se face recomandarea.
+   * @param genre Genul de film cerut.
+   * @param writer Obiectul prin care se face afisare in JSONObject.
+   * @return Obiectul json care va fi pus in arrayResult din main.
+   * @throws IOException Exceptie generata de scrierea in JSONObject.
+   * */
   public JSONObject search(
       final int id,
       final ArrayList<Video> allVids,

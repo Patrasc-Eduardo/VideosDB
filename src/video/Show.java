@@ -16,7 +16,7 @@ public final class Show extends Video implements IRating {
   private final HashMap<String, MyVec> seasonRating;
 
   /**
-   * Some javadoc. // OK
+   Constructor pentru show care preia informatiile din SerialInputData
    */
   public Show(final SerialInputData sh) {
     super(sh.getTitle(), sh.getYear(), sh.getCast(), sh.getGenres());
@@ -26,14 +26,18 @@ public final class Show extends Video implements IRating {
   }
 
   /**
-   * Some javadoc. // OK
+   Metoda de accept pentru patternul "visitor"
+   @param v Clasa de visitor.
+   @return JSONObjectul in care facem afisarea.
    */
   public JSONObject accept(final VideoVisitor v) throws IOException {
     return v.visit(this);
   }
 
   /**
-   * Some javadoc. // OK
+   Metoda care intoarce ratingul unui sezon.
+   @param season Sezonul al carui rating vrem sa-l aflam.
+   @return Ratingul in sine.
    */
   public Double getSeasonRating(final Season season) {
     Double sum = 0.0;
@@ -54,7 +58,10 @@ public final class Show extends Video implements IRating {
   }
 
   /**
-   * Some javadoc. // OK
+   Metoda seteaza un rating in listele de rating ale unui show.
+
+   @param db Ratingul pe care vrem sa-l setam.
+   @param seasonNum Numarul sezonului pe care vrem sa dam rating.
    */
   @Override
   public void setRating(final Double db, final String user, final int seasonNum) {
@@ -74,7 +81,7 @@ public final class Show extends Video implements IRating {
   }
 
   /**
-   * Some javadoc. // OK
+   Intoarce ratingul unui serial.
    */
   @Override
   public Double getRating() {
@@ -89,9 +96,41 @@ public final class Show extends Video implements IRating {
       return 0.0;
     }
   }
-
   /**
-   * Some javadoc. // OK
+   Clasa care retine un vector de frecventa pentru ratingul oferit fiearui sezon in parte.
+   (Daca un user da un rating la sezonul 2 -> al doilea element din vectorul arr este actualizat
+   cu nota oferita drept rating).
+   */
+  static final class MyVec {
+    private final Double[] arr;
+    private final Double grade;
+
+    MyVec(final int size, final int numOfSeason, final double grade) {
+
+      arr = new Double[size];
+      this.grade = grade;
+      Arrays.fill(arr, 0.0);
+      if (numOfSeason != 0) {
+        arr[numOfSeason - 1] = grade;
+      }
+    }
+
+    public Double[] getArr() {
+      return arr;
+    }
+
+    public Double getGrade() {
+      return grade;
+    }
+
+  }
+  /**
+   Metoda care actualizeaza clasa mentionata mai sus cu numele useruluicare ofera rating si nota
+   acestuia catre un anumit sezon al serialului.
+
+   @param username Numele userului care ofera rating. Acesta va deveni o cheie din map
+   @param seasonRated Numarul sezonului care primeste rating.
+   @param grade Nota oferita drept rating.
    */
   public void setUsersShowRating(
       final String username, final int seasonRated, final double grade) {
@@ -108,7 +147,7 @@ public final class Show extends Video implements IRating {
   }
 
   /**
-   * Some javadoc. // OK
+   Intoarce durata serialului.
    */
   public int getDuration() {
     int finalDur = 0;
@@ -148,27 +187,4 @@ public final class Show extends Video implements IRating {
         + '}';
   }
 
-  static final class MyVec {
-    private final Double[] arr;
-    private final Double grade;
-
-      MyVec(final int size, final int numOfSeason, final double grade) {
-
-      arr = new Double[size];
-      this.grade = grade;
-      Arrays.fill(arr, 0.0);
-      if (numOfSeason != 0) {
-        arr[numOfSeason - 1] = grade;
-      }
-    }
-
-    public Double[] getArr() {
-      return arr;
-    }
-
-    public Double getGrade() {
-      return grade;
-    }
-
-  }
 }

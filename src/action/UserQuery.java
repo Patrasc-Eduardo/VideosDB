@@ -14,7 +14,17 @@ public class UserQuery extends Query implements SortMap {
     super(db);
   }
   /**
-   * Some javadoc. // OK
+   Intoarce primii N utilizatori sortați după numărul de ratings pe care le-au dat.
+   Pentru fiecare user apelam metoda getNumberOfRatingsGiven() si stocam valoarea intr-un
+   map. Sortam map-ul si intoarcem primii N utilizatori.
+
+   @param id ID-ul actiunii.
+   @param users Lista cu toti userii.
+   @param number Numarul de utilizatori din query-ul rezultat.
+   @param sortType Tipul de sortare dorit.
+   @param writer Obiectul prin care se face afisare in JSONObject.
+   @return Obiectul json care va fi pus in arrayResult din main.
+   @throws IOException Exceptie generata de scrierea in JSONObject.
    */
   public JSONObject numRatings(
       final int id,

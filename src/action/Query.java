@@ -12,16 +12,29 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Some javadoc. */
+/**
+ * Clasa de query care are ca subclase "ActorQuery", "VideoQuery" si "UserQuery"
+ *
+  */
 public class Query {
   private Database db;
 
   public Query(final Database db) {
     this.db = db;
   }
-  /** Some javadoc. */
+  /** default constructor */
   public Query() { }
-  /** Some javadoc. */
+  /**
+   * Verifica tipul query-ului si
+   * executa metoda aferenta.
+   *
+   * @param mainDatabase Baza de date.
+   * @param act Actiunea de unde vom prelua tipul query-uli, id-ul si alte informatii de care
+   *            mai avem nevoie
+   * @param fileWriter  Obiectul prin care se va face scrierea in JSONObject.
+   * @param arrayResult Obiectul in care se stocheaza rezultatul actiunilor.
+   * @throws IOException Exceptie generata de scrierea in JSONObject.
+   * */
   @SuppressWarnings("unchecked")
   public void init(final Database mainDatabase, final Action act, final Writer fileWriter,
                    final JSONArray arrayResult)
@@ -104,7 +117,7 @@ public class Query {
       default -> System.out.println("No type found!");
     }
   }
-  /** Some javadoc. */
+  /** Getter ce returneaza baza de date */
   public Database getDb() {
     return db;
   }

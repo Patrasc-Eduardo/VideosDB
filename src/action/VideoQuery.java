@@ -18,8 +18,20 @@ public class VideoQuery extends Query implements SortMap {
   }
 
   /**
-   * Some javadoc. // OK
-   *
+   Intoarce primele N videouri sortate dupa rating.
+   Pentru fiecare video verificam daca sunt din anul/genul specificat (tratand si cazul in care
+   aceste 2 filtre pot fi nule) si adaugam cheia (titlu video) si valoarea(rating video) intr-un map
+   pe care il vom sorta in functie de criteriul specificat.
+
+   @param id ID-ul actiunii.
+   @param videos Lista cu videouri.
+   @param number Numarul de videouri din query-ul rezultat.
+   @param sortType Tipul de sortare dorit.
+   @param year Filtru de an al videoului.
+   @param genre FIltru de gen al videoului.
+   @param writer Obiectul prin care se face afisare in JSONObject.
+   @return Obiectul json care va fi pus in arrayResult din main.
+   @throws IOException Exceptie generata de scrierea in JSONObject.
    */
   public JSONObject rating(
       final int id,
@@ -55,9 +67,22 @@ public class VideoQuery extends Query implements SortMap {
     return writer.writeFile(id, null, finalStr);
   }
   /**
-   * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
+   Intoarce primele N videouri sortate dupa numarul de aparitii in listele de fav ale userilor.
+   Pentru fiecare video verificam daca sunt din anul/genul specificat (tratand si cazul in care
+   aceste 2 filtre pot fi nule) si de cate ori apar in listele de favorite ale userilor.
+   Apoi adaugam cheia (titlu video) si valoarea(numar de aparitii video) intr-un map
+   pe care il vom sorta in functie de criteriul specificat.
+
+   @param id ID-ul actiunii.
+   @param videos Lista cu videouri.
+   @param users Lista cu useri.
+   @param number Numarul de videouri din query-ul rezultat.
+   @param sortType Tipul de sortare dorit.
+   @param year Filtru de an al videoului.
+   @param genre FIltru de gen al videoului.
+   @param writer Obiectul prin care se face afisare in JSONObject.
+   @return Obiectul json care va fi pus in arrayResult din main.
+   @throws IOException Exceptie generata de scrierea in JSONObject.
    */
   public JSONObject favorite(
       final int id,
@@ -99,9 +124,20 @@ public class VideoQuery extends Query implements SortMap {
     return writer.writeFile(id, null, finalStr);
   }
   /**
-   * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
+   Intoarce primele N videouri sortate dupa sortate după durata lor.
+   Pentru fiecare video verificam daca sunt din anul/genul specificat (tratand si cazul in care
+   aceste 2 filtre pot fi nule). Apoi adaugam cheia (titlu video) si valoarea(durata obtinuta prin
+   metoda getDuration()) intr-un map pe care il vom sorta in functie de criteriul specificat.
+
+   @param id ID-ul actiunii.
+   @param videos Lista cu videouri.
+   @param number Numarul de videouri din query-ul rezultat.
+   @param sortType Tipul de sortare dorit.
+   @param year Filtru de an al videoului.
+   @param genre FIltru de gen al videoului.
+   @param writer Obiectul prin care se face afisare in JSONObject.
+   @return Obiectul json care va fi pus in arrayResult din main.
+   @throws IOException Exceptie generata de scrierea in JSONObject.
    */
   public JSONObject longest(
       final int id,
@@ -137,9 +173,23 @@ public class VideoQuery extends Query implements SortMap {
     return writer.writeFile(id, null, finalStr);
   }
   /**
-   * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
+   Intoarce primele N video-uri sortate după numărul de vizualizări.
+   Aici videourile pe care le vom pune intr-un map si le vom sorta sunt luate din mapul
+   de history al fiecarui utilizator care are drept cheie numele videoului si drept valoare
+   numarul de vizualizari.
+   Atunci cand preluam un video din history tinem cont si de filtrul de an si de gen.
+
+
+   @param id ID-ul actiunii.
+   @param videos Lista cu videouri.
+   @param users Lista cu useri.
+   @param number Numarul de videouri din query-ul rezultat.
+   @param sortType Tipul de sortare dorit.
+   @param year Filtru de an al videoului.
+   @param genre FIltru de gen al videoului.
+   @param writer Obiectul prin care se face afisare in JSONObject.
+   @return Obiectul json care va fi pus in arrayResult din main.
+   @throws IOException Exceptie generata de scrierea in JSONObject.
    */
   public JSONObject mostViewed(
       final int id,
@@ -194,9 +244,12 @@ public class VideoQuery extends Query implements SortMap {
     return writer.writeFile(id, null, finalStr);
   }
   /**
-   * Some javadoc. // OK
-   *
-   * @author Some javadoc. // OK
+   Metoda ajuatatoare care intoarce un video din lista totala de videouri in functie de titlul
+   dat. Aceasta va usura lizibilitatea codului.
+
+   @param videos Lista de videouri.
+   @param title Titlul videoului pe care il cautam.
+   @return videoul pe care il cautam.
    */
   public Video getVideo(final ArrayList<Video> videos, final String title) {
     for (Video vid : videos) {

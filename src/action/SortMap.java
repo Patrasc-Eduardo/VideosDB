@@ -10,7 +10,21 @@ import java.util.stream.Collectors;
 
 public interface SortMap {
   /**
-   * Some javadoc. // OK
+   * Metoda care sorteaza un map (<String, Double>) dupa valoare sau dupa cheie.
+   * in functie de variabila order, sortarea se face crescator sau descrescator, iar
+   * daca este specificat prin @param apearCriteria ca se vrea o sortare dupa ordinea
+   * de aparitie, aceasta conditie este de asemenea indeplinita.
+   * Metoda este rensponsabila de sortarea tuturor map-urilor care apar in program, lucru realizat
+   * prin conversia valorii unei chei la double (chiar daca numarul de vizionari sau ratinguri este
+   * in realitate un int).
+   *
+   * @param map Map-ul mentionat mai sus.
+   * @param sortType Tipul de soratare dorit.
+   * @param apearCriteria Parametrul este != null daca se doreste sortare
+   *                      si dupa ordinea de aparitie.
+   * @param apOrder Lista care retine oridnea de aparitie a videoclipurilor in baza de date.
+   * @param number Numarul de elemente returnate.
+   * @return Lista de stringuri sortate (acestea pot reprezenta numele videourilor, userilor, etc.)
    */
   static List<String> sortMap(
       HashMap<String, Double> map,
@@ -39,7 +53,7 @@ public interface SortMap {
           return o1.getValue().compareTo(o2.getValue()) * order;
         });
 
-    HashMap<String, Double> newMap = new LinkedHashMap<>();
+    HashMap<String, Double> newMap = new LinkedHashMap<>(); // LinkedHashMap pentru a pastra ordinea
 
     for (Map.Entry<String, Double> aux : list) {
       newMap.put(aux.getKey(), aux.getValue());
