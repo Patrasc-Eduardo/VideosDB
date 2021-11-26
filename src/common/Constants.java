@@ -95,5 +95,5 @@ public final class Constants {
     public static final String POPULAR = "popular";
     public static final String SEARCH = "search";
     public static final String ASC = "asc";
-    public static final String desc = "desc";
+    public static final String DESC = "desc";
 }

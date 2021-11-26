@@ -16,9 +16,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Recommandation implements SortMap {
+public class Recommendation implements SortMap {
 
-  public Recommandation() { }
+  public Recommendation() { }
   /** Some javadoc. // OK */
   @SuppressWarnings("unchecked")
   public void init(

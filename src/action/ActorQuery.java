@@ -48,7 +48,6 @@ public final class ActorQuery extends Query implements SortMap {
         Double rating = 0.0;
 
         if (this.getDb().getVideoByTitle(str) != null) {
-          ///// rating = this.getDb().getVideoByTitle(str).getRating();
           try {
             rating = Objects.requireNonNull(this.getDb().getVideoByTitle(str)).getRating();
           } catch (NullPointerException e) {

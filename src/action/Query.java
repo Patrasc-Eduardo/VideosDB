@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Some javadoc. */
-public class Query extends Action {
+public class Query {
   private Database db;
 
   public Query(final Database db) {

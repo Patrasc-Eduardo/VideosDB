@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
-public final class Commands extends Action {
+public final class Commands {
 
   public Commands() { }
   /** Some javadoc. // OK */

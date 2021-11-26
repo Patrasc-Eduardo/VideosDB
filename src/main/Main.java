@@ -3,7 +3,7 @@ package main;
 import action.Action;
 import action.Commands;
 import action.Query;
-import action.Recommandation;
+import action.Recommendation;
 import database.Database;
 import checker.Checkstyle;
 import checker.Checker;
@@ -88,7 +88,7 @@ public final class Main {
 
         }
         case Constants.RECOMMENDATION -> {
-          Recommandation recom = new Recommandation();
+          Recommendation recom = new Recommendation();
           recom.init(mainDatabase, act, fileWriter, arrayResult);
         }
         default -> System.out.println("No command found !");
