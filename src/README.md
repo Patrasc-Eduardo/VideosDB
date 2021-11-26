@@ -34,7 +34,7 @@ _Patrasc Andrea-Eduardo, 321CDb_
   * **Query** : Clasa contine metodoele care verifica si apeleaza tipul de query cerut de utilizator.
     * **ActorQuery** : Aici sunt implementate query-urile de average, awards si filter_description cerute in enunt.
     * **VideoQuery** : Aici sunt implementate query-urile de rating, favorite, longest si most_viewed cerute in enunt.
-    * **UserQuery** : Aici este implmentat query-ul care intoarce lista de utilizatori sortati dupa numarul de ratings 
+    * **UserQuery** : Aici este implementat query-ul care intoarce lista de utilizatori sortati dupa numarul de ratings 
     oferite.
   * **Recommendation** : Clasa care implementeaza recomandarile cerute in enunt.
   * **SortMap** : Aceasta este o interfata ce contine o metoda default care care sorteaza un dictionar ce are drept cheie
